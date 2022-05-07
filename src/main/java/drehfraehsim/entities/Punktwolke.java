@@ -23,6 +23,7 @@ public class Punktwolke {
 	 * @return
 	 */
 	public static Punktwolke zylinder(double länge, double radius) {
+		return null;
 
 	}
 
@@ -33,6 +34,7 @@ public class Punktwolke {
 	 * @return
 	 */
 	public static Punktwolke quader(double höhe, double breite) {
+		return null;
 
 	}
 }
