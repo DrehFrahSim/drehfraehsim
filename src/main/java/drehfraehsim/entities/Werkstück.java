@@ -1,5 +1,7 @@
 package drehfraehsim.entities;
 
+import drehfraehsim.entities.ProzessParameter.WerkstückParameter;
+
 /**
  *
  * Stellt ein Werkstück dar, dass durch ein Werkzeug bearbeitet werden kann.
@@ -14,9 +16,9 @@ public class Werkstück {
 
 	private double winkel;
 
-	public Werkstück(double initialRadius, double initialLänge) {
-		this.initialRadius = initialRadius;
-		this.initialLänge = initialLänge;
+	public Werkstück(WerkstückParameter parameter) {
+		this.initialRadius = parameter.radius();
+		this.initialLänge = parameter.länge();
 		this.punkte = Punktwolke.zylinder(initialLänge, initialRadius);
 	}
 

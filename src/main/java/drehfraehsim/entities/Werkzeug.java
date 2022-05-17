@@ -1,5 +1,7 @@
 package drehfraehsim.entities;
 
+import drehfraehsim.entities.ProzessParameter.WerkzeugParameter;
+
 public class Werkzeug {
 	private final double höhe;
 	private final double breite;
@@ -8,9 +10,9 @@ public class Werkzeug {
 
 	private Vector position = new Vector(0, 0);
 
-	public Werkzeug(double höhe, double breite) {
-		this.höhe = höhe;
-		this.breite = breite;
+	public Werkzeug(WerkzeugParameter parameter) {
+		this.höhe = parameter.höhe();
+		this.breite = parameter.breite();
 		this.punkte = Punktwolke.quader(höhe, breite);
 	}
 

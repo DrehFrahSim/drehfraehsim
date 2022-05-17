@@ -8,11 +8,15 @@ import drehfraehsim.entities.ProzessParameter;
  *
  */
 public class Simulator {
-	private ProzessParameter prozessParameter;
+	private static final int TICKS_PRO_SEKUNDE = 1000;
+	private final ProzessParameter prozessParameter;
+	private final Werkstück werkstück;
+	private final Werkzeug werkzeug;
 
 	public Simulator(ProzessParameter prozessParameter) {
 		this.prozessParameter = prozessParameter;
-		// TODO kram simulieren
+		werkstück = new Werkstück(prozessParameter.werkstückParameter());
+		werkzeug = new Werkzeug(prozessParameter.werkzeugParameter());
 	}
 
 
