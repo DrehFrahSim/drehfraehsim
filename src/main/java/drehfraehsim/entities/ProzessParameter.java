@@ -13,9 +13,9 @@ public record ProzessParameter(OperationsParameter operationsParameter, Werkzeug
 		}
 	}
 	public static record WerkstückParameter(double radius, double länge) {}
-	public static record WerkzeugParameter(double höhe, double breite) {}
+	public static record WerkzeugParameter(double höhe, double breite, double tiefe) {}
 
 	public static ProzessParameter beispiel() {
-		return new ProzessParameter(new OperationsParameter(95, 1, 1, 1, 5, 50), new WerkzeugParameter(1, 1), new WerkstückParameter(10, 100));
+		return new ProzessParameter(new OperationsParameter(95, 1, 1, 1, 5, 50), new WerkzeugParameter(1, 1, 1), new WerkstückParameter(10, 100));
 	}
 }

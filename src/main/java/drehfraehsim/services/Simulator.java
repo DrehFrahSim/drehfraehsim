@@ -29,10 +29,10 @@ public class Simulator {
 		werkzeug.fahreZu(werkzeugPositionInTick(tick));
 	}
 
-	private Vector werkzeugPositionInTick(long tick) {
+	private Vector2 werkzeugPositionInTick(long tick) {
 		var z = (werkzeugAbfahrDauerInTicks() % tick) * werkzeugStreckeProTick();
 		var schnittTiefe = schnittTiefeInTick(tick);
-		return new Vector(z, -schnittTiefe);
+		return new Vector2(z, -schnittTiefe);
 	}
 
 	private double schnittTiefeInTick(long tick) {
