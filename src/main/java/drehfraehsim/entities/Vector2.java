@@ -1,7 +1,7 @@
 package drehfraehsim.entities;
 
-public record Vector(double x, double y) {
-    public static double distanzZwischenVectoren(Vector A, Vector B) {
+public record Vector2(double x, double y) {
+    public static double distanzZwischenVectoren(Vector2 A, Vector2 B) {
         return Math.sqrt(Math.pow(A.x - B.x, 2) + Math.pow(A.y - B.y, 2));
     }
 

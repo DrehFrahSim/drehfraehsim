@@ -1,6 +1,8 @@
 package drehfraehsim.services;
 
 import drehfraehsim.entities.ProzessParameter;
+import drehfraehsim.entities.Werkstück;
+import drehfraehsim.entities.Werkzeug;
 
 /**
  *

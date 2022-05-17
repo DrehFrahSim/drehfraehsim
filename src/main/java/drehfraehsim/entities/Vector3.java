@@ -3,4 +3,4 @@ package drehfraehsim.entities;
 /**
  * @author Lennart
  */
-public record Punkt(double x, double y, double z) {}
+public record Vector3(double x, double y, double z) {}
