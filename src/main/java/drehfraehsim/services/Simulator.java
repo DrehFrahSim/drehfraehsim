@@ -30,7 +30,7 @@ public class Simulator {
 	}
 
 	private Vector2 werkzeugPositionInTick(long tick) {
-		var z = (werkzeugAbfahrDauerInTicks() % tick) * werkzeugStreckeProTick();
+		var z = (tick % werkzeugAbfahrDauerInTicks() ) * werkzeugStreckeProTick();
 		var schnittTiefe = schnittTiefeInTick(tick);
 		return new Vector2(z, -schnittTiefe);
 	}
