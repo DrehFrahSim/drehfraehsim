@@ -1,6 +1,6 @@
 package drehfraehsim.services;
 
-import drehfraehsim.entities.ProzessParameter;
+import drehfraehsim.entities.*;
 
 /**
  *
@@ -22,5 +22,40 @@ public class Simulator {
 
 	public void run() {
 
+	}
+
+	private void doTick(long tick) {
+		werkstück.dreheZu(werkstückEinstellWinkelInTick(tick));
+		werkzeug.fahreZu(werkzeugPositionInTick(tick));
+	}
+
+	private Vector werkzeugPositionInTick(long tick) {
+		var z = (werkzeugAbfahrDauerInTicks() % tick) * werkzeugStreckeProTick();
+		var schnittTiefe = schnittTiefeInTick(tick);
+		return new Vector(z, -schnittTiefe);
+	}
+
+	private double schnittTiefeInTick(long tick) {
+		int wievieltesMalSchneiden = (int)(tick / werkzeugAbfahrDauerInTicks() + 1);
+		return wievieltesMalSchneiden * prozessParameter.operationsParameter().schnittTiefe();
+	}
+
+	private double werkstückEinstellWinkelInTick(long tick) {
+
+	}
+
+	private double werkzeugStreckeProTick() {
+
+	}
+
+	/**
+	 *
+	 * @return wie viele Ticks das Werkzeug braucht um einmal die bearbeitungslänge abzufahren
+	 */
+	private long werkzeugAbfahrDauerInTicks() {
+		var schnittGeschwindigkeit = prozessParameter.operationsParameter().schnittGeschwindigkeit();
+		var bearbeitungslänge = prozessParameter.operationsParameter().bearbeitungsLänge();
+		var abfahrDauerInSek = bearbeitungslänge / schnittGeschwindigkeit;
+		return (long) (abfahrDauerInSek * TICKS_PRO_SEKUNDE);
 	}
 }
