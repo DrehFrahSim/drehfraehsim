@@ -26,9 +26,9 @@ public class Punktwolke {
 		Punktwolke punktwolke = new Punktwolke();
 
 		for (double zInkrement = 0; zInkrement <= länge; zInkrement = zInkrement + (1/GENAUIGKEIT)) {
-			for (double xInkrement = 0; xInkrement <= 2*radius; xInkrement = xInkrement + (1/GENAUIGKEIT)) {
-				for (double yInkrement = 0; yInkrement <= 2*radius; yInkrement = yInkrement + (1/GENAUIGKEIT)) {
-					if (Vector2.distanzZwischenVectoren(xInkrement, yInkrement, radius/2, radius/2) <= radius)
+			for (double xInkrement = -radius; xInkrement <= radius; xInkrement = xInkrement + (1/GENAUIGKEIT)) {
+				for (double yInkrement = -radius; yInkrement <= radius; yInkrement = yInkrement + (1/GENAUIGKEIT)) {
+					if (Vector2.distanzZwischenVectoren(xInkrement, yInkrement, 0, 0) <= radius)
 						punktwolke.punktHinzufügen(new Vector3(xInkrement, yInkrement, zInkrement));
 				}
 			}
