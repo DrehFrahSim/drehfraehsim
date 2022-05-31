@@ -19,6 +19,10 @@ public class Werkzeug {
 		this.punkte = Punktwolke.quader(höhe, breite, tiefe);
 	}
 
+	public Punktwolke getPunkte() {
+		return punkte;
+	}
+
 	public void fahreZu(Vector2 position) {
 		this.position = position;
 	}

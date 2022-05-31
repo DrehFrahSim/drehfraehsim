@@ -18,6 +18,10 @@ public class Punktwolke {
 		punkte = new HashSet<>();
 	}
 
+	public HashSet<Vector3> getPunkteSet() {
+		return punkte;
+	}
+
 	public static Punktwolke zylinder(double länge, double radius) {
 		Punktwolke punktwolke = new Punktwolke();
 
@@ -49,5 +53,13 @@ public class Punktwolke {
 
 	private void punktHinzufügen(Vector3 punkt) {
 		punkte.add(punkt);
+	}
+
+	public Punktwolke entferneAnderePunktwolke (Punktwolke andere) {
+		for (Vector3 p : andere.getPunkteSet()) {
+			this.punkte.remove(p);
+		}
+
+		return this;
 	}
 }

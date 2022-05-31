@@ -27,7 +27,7 @@ public class Werkstück {
 	}
 
 	public void schneiden(Werkzeug werkzeug) {
-
+		punkte.entferneAnderePunktwolke(werkzeug.getPunkte());
 	}
 
 }
