@@ -21,8 +21,19 @@ public class Simulator {
 
 
 	public void run() {
-
+		long tick = 0;
+		do {
+			doTick(tick);
+			tick++;
+		} while (!processFinished(tick));
 	}
+
+
+	private boolean processFinished(long tick) {
+		// Wenn wir in diesem Tick öfter schneiden würden als nötig dann stoppen wir
+		return wievielMalSchneidenNötig() < wievieltesMalSchneiden(tick);
+	}
+
 
 	private void doTick(long tick) {
 		werkstück.dreheZu(werkstückEinstellWinkelInTick(tick));
@@ -35,17 +46,37 @@ public class Simulator {
 		return new Vector2(z, -schnittTiefe);
 	}
 
+	private int wievielMalSchneidenNötig() {
+		var radiusZuEntfernen = prozessParameter.werkstückParameter().radius() - prozessParameter.operationsParameter().zielRadius();
+
+		double wieOftSchneiden = radiusZuEntfernen / prozessParameter.operationsParameter().schnittTiefe();
+
+		return (int)Math.ceil(wieOftSchneiden);
+	}
+
+	private int wievieltesMalSchneiden(long tick) {
+		return (int)(tick / werkzeugAbfahrDauerInTicks() + 1);
+	}
+
 	private double schnittTiefeInTick(long tick) {
-		int wievieltesMalSchneiden = (int)(tick / werkzeugAbfahrDauerInTicks() + 1);
-		return wievieltesMalSchneiden * prozessParameter.operationsParameter().schnittTiefe();
+		// TODO beim letzten Schneiden nicht die volle Tiefe wegnehmen.
+		// (wenn 10 insgesamt weg soll, und wir schnitttiefe 3 haben, würden wir 2 zu viel wegnehmen (4*3 = 12))
+		return wievieltesMalSchneiden(tick) * prozessParameter.operationsParameter().schnittTiefe();
 	}
 
 	private double werkstückEinstellWinkelInTick(long tick) {
-		return 0; //TODO
+		var schnittStreckeProTick = prozessParameter.operationsParameter().schnittGeschwindigkeit() / TICKS_PRO_SEKUNDE;
+		var winkelProTick = kreisBogenZuWinkel(schnittStreckeProTick, prozessParameter.werkstückParameter().radius());
+		return (winkelProTick * tick) % 360;
+	}
+
+	private static double kreisBogenZuWinkel(double bogenLänge, double radius) {
+		// https://de.wikipedia.org/wiki/Kreisbogen
+		return bogenLänge / Math.PI /radius * 360;
 	}
 
 	private double werkzeugStreckeProTick() {
-		return 0;//TODO
+		return prozessParameter.operationsParameter().schnittGeschwindigkeit() / TICKS_PRO_SEKUNDE;
 	}
 
 	/**
