@@ -41,11 +41,11 @@ public class Simulator {
 	}
 
 	private double werkstückEinstellWinkelInTick(long tick) {
-		return 0;
+		return 0; //TODO
 	}
 
 	private double werkzeugStreckeProTick() {
-		return 0;
+		return 0;//TODO
 	}
 
 	/**

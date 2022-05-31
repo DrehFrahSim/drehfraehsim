@@ -10,6 +10,7 @@
 		<maven.compiler.release>${java.version}</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<junit.version>5.7.1</junit.version>
 	</properties>
 
 	<dependencies>
@@ -19,6 +20,34 @@
 		    <artifactId>commons-cli</artifactId>
 		    <version>1.5.0</version>
 		</dependency>
+		<dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17-ea+11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17-ea+11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>17-ea+11</version>
+        </dependency>
 	</dependencies>	
 
 	<build>
@@ -27,6 +56,20 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 			</plugin>
+			<plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.6</version>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running with: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>drehfraehsim/drehfraehsim.JavaFXStart</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>
