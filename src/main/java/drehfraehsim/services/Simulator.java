@@ -38,6 +38,7 @@ public class Simulator {
 	private void doTick(long tick) {
 		werkstück.dreheZu(werkstückEinstellWinkelInTick(tick));
 		werkzeug.fahreZu(werkzeugPositionInTick(tick));
+		werkstück.schneiden(werkzeug);
 	}
 
 	private Vector2 werkzeugPositionInTick(long tick) {
