@@ -73,7 +73,7 @@ public class Simulator {
 
 	private static double kreisBogenZuWinkel(double bogenLänge, double radius) {
 		// https://de.wikipedia.org/wiki/Kreisbogen
-		return bogenLänge / Math.PI /radius * 360;
+		return bogenLänge / (2*Math.PI) / radius * 360;
 	}
 
 	private double werkzeugStreckeProTick() {
