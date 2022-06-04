@@ -1,5 +1,7 @@
 package drehfraehsim.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -13,6 +15,9 @@ public class Punktwolke {
 	private static final int GENAUIGKEIT = 1;
 
 	private HashSet<Vector3> punkte;
+
+	private Collection<Vector3> entferntePunkte = new ArrayList<>();
+
 
 	private Punktwolke() {
 		punkte = new HashSet<>();
@@ -57,9 +62,18 @@ public class Punktwolke {
 
 	public Punktwolke entferneAnderePunktwolke (Punktwolke andere) {
 		for (Vector3 p : andere.getPunkteSet()) {
-			this.punkte.remove(p);
+			var wurdeEntfernt = this.punkte.remove(p);
+			if (wurdeEntfernt) {
+				entferntePunkte.add(p);
+			}
 		}
 
 		return this;
+	}
+
+	public Collection<Vector3> getAndClearEntferntePunkte() {
+		var entferntePunkte = this.entferntePunkte;
+		this.entferntePunkte = new ArrayList<>();
+		return entferntePunkte;
 	}
 }

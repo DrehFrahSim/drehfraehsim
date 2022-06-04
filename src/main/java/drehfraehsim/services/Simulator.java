@@ -1,6 +1,9 @@
 package drehfraehsim.services;
 
+import java.time.Instant;
+
 import drehfraehsim.entities.*;
+import drehfraehsim.view.Renderer;
 
 /**
  *
@@ -12,20 +15,33 @@ public class Simulator {
 	private final ProzessParameter prozessParameter;
 	private final Werkstück werkstück;
 	private final Werkzeug werkzeug;
+	private Instant lastRender = Instant.MIN;
 
-	public Simulator(ProzessParameter prozessParameter) {
+	public Simulator(ProzessParameter prozessParameter, Renderer renderer) {
 		this.prozessParameter = prozessParameter;
-		werkstück = new Werkstück(prozessParameter.werkstückParameter());
-		werkzeug = new Werkzeug(prozessParameter.werkzeugParameter());
+		werkstück = new Werkstück(prozessParameter.werkstückParameter(), renderer);
+		werkzeug = new Werkzeug(prozessParameter.werkzeugParameter(), renderer);
 	}
 
 
 	public void run() {
+		System.out.println("Simulator.run() start");
 		long tick = 0;
 		do {
 			doTick(tick);
+			if (Instant.now().minusSeconds(1).isAfter(lastRender) || tick == 0) {
+				lastRender = Instant.now();
+				render();
+			}
 			tick++;
 		} while (!processFinished(tick));
+		render();
+		System.out.println("Simulator.run() ende");
+	}
+
+	private void render() {
+		werkzeug.refreshRender();
+		werkstück.refreshRender();
 	}
 
 

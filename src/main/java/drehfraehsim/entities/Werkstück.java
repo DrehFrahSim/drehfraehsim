@@ -1,6 +1,9 @@
 package drehfraehsim.entities;
 
+import java.util.ArrayList;
+
 import drehfraehsim.entities.ProzessParameter.WerkstückParameter;
+import drehfraehsim.view.Renderer;
 
 /**
  *
@@ -13,13 +16,17 @@ public class Werkstück {
 
 	private final double initialRadius;
 	private final double initialLänge;
+	private final Renderer renderer;
 
 	private double winkel;
 
-	public Werkstück(WerkstückParameter parameter) {
+	public Werkstück(WerkstückParameter parameter, Renderer renderer) {
 		this.initialRadius = parameter.radius();
 		this.initialLänge = parameter.länge();
 		this.punkte = Punktwolke.zylinder(initialLänge, initialRadius);
+		this.renderer = renderer;
+
+		renderer.initialiseWerkstück(new ArrayList<>(this.punkte.getPunkteSet()));
 	}
 
 	public void dreheZu(double winkel) {
@@ -28,6 +35,10 @@ public class Werkstück {
 
 	public void schneiden(Werkzeug werkzeug) {
 		punkte.entferneAnderePunktwolke(werkzeug.getPunkte());
+	}
+
+	public void refreshRender() {
+		renderer.entferneWerkstückPunkte(punkte.getAndClearEntferntePunkte());
 	}
 
 }
