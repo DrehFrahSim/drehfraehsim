@@ -12,10 +12,13 @@ public record ProzessParameter(OperationsParameter operationsParameter, Werkzeug
 			}
 		}
 	}
+
 	public static record WerkstückParameter(double radius, double länge) {
-		public WerkstückParameter {
+		public double umfang() {
+			return radius * 2 * Math.PI;
 		}
 	}
+
 	public static record WerkzeugParameter(double höhe, double breite, double tiefe) {
 		public WerkzeugParameter {
 		}

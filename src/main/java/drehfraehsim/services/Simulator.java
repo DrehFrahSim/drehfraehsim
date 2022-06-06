@@ -36,7 +36,7 @@ public class Simulator {
 			tick++;
 		} while (!processFinished(tick));
 		render();
-		System.out.println("Simulator.run() ende");
+		System.out.println("Simulator.run() ende, ticks = " + tick);
 	}
 
 	private void render() {
@@ -82,18 +82,20 @@ public class Simulator {
 	}
 
 	private double werkstückEinstellWinkelInTick(long tick) {
-		var schnittStreckeProTick = prozessParameter.operationsParameter().schnittGeschwindigkeit() / TICKS_PRO_SEKUNDE;
-		var winkelProTick = kreisBogenZuWinkel(schnittStreckeProTick, prozessParameter.werkstückParameter().radius());
-		return (winkelProTick * tick) % 360;
+		// z.b 0.001 drehungen in einem tick
+		var frequenzProTick = drehfrequenz() / TICKS_PRO_SEKUNDE;
+		var winkelProTick  = frequenzProTick * 360;
+		return (winkelProTick * tick ) % 360;
 	}
 
-	private static double kreisBogenZuWinkel(double bogenLänge, double radius) {
-		// https://de.wikipedia.org/wiki/Kreisbogen
-		return bogenLänge / (2*Math.PI) / radius * 360;
+	private double drehfrequenz() {
+		return prozessParameter.operationsParameter().schnittGeschwindigkeit()
+				/ (prozessParameter.werkstückParameter().umfang());
 	}
+
 
 	private double werkzeugStreckeProTick() {
-		return prozessParameter.operationsParameter().schnittGeschwindigkeit() / TICKS_PRO_SEKUNDE;
+		return drehfrequenz() / TICKS_PRO_SEKUNDE * prozessParameter.operationsParameter().vorschub();
 	}
 
 	/**
@@ -101,9 +103,6 @@ public class Simulator {
 	 * @return wie viele Ticks das Werkzeug braucht um einmal die bearbeitungslänge abzufahren
 	 */
 	private long werkzeugAbfahrDauerInTicks() {
-		var schnittGeschwindigkeit = prozessParameter.operationsParameter().schnittGeschwindigkeit();
-		var bearbeitungslänge = prozessParameter.operationsParameter().bearbeitungsLänge();
-		var abfahrDauerInSek = bearbeitungslänge / schnittGeschwindigkeit;
-		return (long) (abfahrDauerInSek * TICKS_PRO_SEKUNDE);
+		return (long) (prozessParameter.operationsParameter().bearbeitungsLänge() / werkzeugStreckeProTick());
 	}
 }
