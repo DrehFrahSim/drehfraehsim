@@ -34,9 +34,9 @@ public class Werkstück {
 	}
 
 	public void schneiden(Werkzeug werkzeug) {
-		punkte.entferneAnderePunktwolke(werkzeug.getPunkte());
+		punkte.enferneQuaderVolumen(werkzeug.getEckPunkte().rotiereUmZAchse(winkel));
 	}
-
+	
 	public void refreshRender() {
 		renderer.entferneWerkstückPunkte(punkte.getAndClearEntferntePunkte());
 	}

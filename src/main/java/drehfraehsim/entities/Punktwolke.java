@@ -59,7 +59,23 @@ public class Punktwolke {
 	private void punktHinzufügen(Vector3 punkt) {
 		punkte.add(punkt);
 	}
-
+	
+	public void enferneQuaderVolumen(Quader quader) {
+		var minZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).min().getAsDouble();
+		var maxZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).max().getAsDouble();
+		
+		for (Vector3 punkt : punkte) {
+			if (minZ > punkt.z() || punkt.z() > maxZ) {
+				continue;
+			}
+			// TODO 
+			// lokales Koordinatensystem der Werkzeugescheibe berechnen
+			// Eckpunkte aus Weltkoordinatensystem in lokales transformieren
+			// Transformieren Punkt in lokales System
+			// Checken ob x&y in bounds von min/max x/y der Eckpunkte
+		}
+	}
+	
 	public Punktwolke entferneAnderePunktwolke (Punktwolke andere) {
 		for (Vector3 p : andere.getPunkteSet()) {
 			var wurdeEntfernt = this.punkte.remove(p);
