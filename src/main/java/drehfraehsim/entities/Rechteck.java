@@ -6,15 +6,24 @@ public record Rechteck (Vector3 untenLinks, Vector3 untenRechts, Vector3 obenLin
 
 	public Rechteck rotiereUmZAchse(double winkel) {
 		return new Rechteck(
-			untenLinks.rotiereUmZAchse(winkel), 
-			untenRechts.rotiereUmZAchse(winkel), 
-			obenLinks.rotiereUmZAchse(winkel), 
+			untenLinks.rotiereUmZAchse(winkel),
+			untenRechts.rotiereUmZAchse(winkel),
+			obenLinks.rotiereUmZAchse(winkel),
 			obenRechts.rotiereUmZAchse(winkel)
 		);
 	}
 
 	public Stream<Vector3> allePunkte() {
 		return Stream.of(untenLinks, untenRechts, obenLinks, obenRechts);
+	}
+
+	public Rechteck verschiebeUm(Vector3 offset) {
+		return new Rechteck(
+				untenLinks.add(offset),
+				untenRechts.add(offset),
+				obenLinks.add(offset),
+				obenRechts.add(offset)
+			);
 	}
 
 }
