@@ -14,7 +14,7 @@ public class Werkzeug {
 		var höhe = parameter.höhe();
 		var tiefe = parameter.tiefe();
 		this.renderer = renderer;
-		
+
 		// TODO um position verschieben
 		this.eckPunkte = berechneEckPunkte(parameter);
 

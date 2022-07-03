@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import drehfraehsim.entities.Vector2;
 import drehfraehsim.entities.Vector3;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -105,11 +104,11 @@ public class FertigungsProzessSzene extends Scene implements Renderer {
 	}
 
 	@Override
-	public void bewegeWerkzeug(Vector2 position) {
+	public void bewegeWerkzeug(double z, double y) {
 		Platform.runLater(() -> {
-			werkzeug.setTranslateX(position.x());
-			werkzeug.setTranslateY(position.y());
-			werkzeug.translateZProperty().set(0);
+			werkzeug.setTranslateX(0);
+			werkzeug.setTranslateY(y);
+			werkzeug.setTranslateZ(z);
 		});
 	}
 

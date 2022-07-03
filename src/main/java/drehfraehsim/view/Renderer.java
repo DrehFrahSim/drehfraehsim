@@ -2,7 +2,6 @@ package drehfraehsim.view;
 
 import java.util.Collection;
 
-import drehfraehsim.entities.Vector2;
 import drehfraehsim.entities.Vector3;
 
 public interface Renderer {
@@ -14,6 +13,6 @@ public interface Renderer {
 
 	public void entferneWerkstückPunkte(Collection<Vector3> punkte);
 
-	public void bewegeWerkzeug(Vector2 position);
+	public void bewegeWerkzeug(double z, double y);
 
 }
