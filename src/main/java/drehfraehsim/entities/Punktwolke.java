@@ -1,8 +1,10 @@
 package drehfraehsim.entities;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
+
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 
 /**
  *
@@ -17,6 +19,8 @@ public class Punktwolke {
 	private HashSet<Vector3> punkte;
 
 	private Collection<Vector3> entferntePunkte = new ArrayList<>();
+
+	private GeometryFactory geometryFactory = new GeometryFactory();
 
 
 	private Punktwolke() {
@@ -59,32 +63,32 @@ public class Punktwolke {
 	private void punktHinzufügen(Vector3 punkt) {
 		punkte.add(punkt);
 	}
-	
+
 	public void enferneQuaderVolumen(Quader quader) {
 		var minZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).min().getAsDouble();
 		var maxZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).max().getAsDouble();
-		
-		for (Vector3 punkt : punkte) {
+
+		Coordinate[] eckPunkte = quader.allePunkte()
+									.map(vec3 -> new Coordinate(vec3.x(), vec3.y(), vec3.z()))
+									.toArray(Coordinate[]::new);
+
+		Coordinate[] ring = Arrays.copyOf(eckPunkte, 9);
+		ring[8] = ring[0];
+
+		Geometry quaderHülle = geometryFactory.createPolygon(ring).convexHull();
+
+		var punktIterator = punkte.iterator();
+		while(punktIterator.hasNext()) {
+			var punkt = punktIterator.next();
+
 			if (minZ > punkt.z() || punkt.z() > maxZ) {
 				continue;
 			}
-			// TODO 
-			// lokales Koordinatensystem der Werkzeugescheibe berechnen
-			// Eckpunkte aus Weltkoordinatensystem in lokales transformieren
-			// Transformieren Punkt in lokales System
-			// Checken ob x&y in bounds von min/max x/y der Eckpunkte
-		}
-	}
-	
-	public Punktwolke entferneAnderePunktwolke (Punktwolke andere) {
-		for (Vector3 p : andere.getPunkteSet()) {
-			var wurdeEntfernt = this.punkte.remove(p);
-			if (wurdeEntfernt) {
-				entferntePunkte.add(p);
+			if (quaderHülle.contains(geometryFactory.createPoint(new Coordinate(punkt.x(), punkt.y(), punkt.z())))) {
+				punktIterator.remove();
+				entferntePunkte.add(punkt);
 			}
 		}
-
-		return this;
 	}
 
 	public Collection<Vector3> getAndClearEntferntePunkte() {
