@@ -24,19 +24,21 @@ public class FertigungsProzessSzene extends Scene implements Renderer {
 	private Box werkzeug;
 
 	public FertigungsProzessSzene() {
-		super(new Group(), WIDTH, HEIGHT);
+		super(new Group(), WIDTH, HEIGHT, true);
 		rootGroup = (Group) getRoot();
 
 		rootGroup.getChildren().add(werkstück);
 
 
 		Camera camera = new PerspectiveCamera(true);
-		camera.setTranslateZ(-500);
+		camera.setTranslateX(300);
+		camera.setTranslateZ(50);
 		camera.setNearClip(1);
 		camera.setFarClip(1000);
+		camera.setRotationAxis(Rotate.Y_AXIS);
+		camera.setRotate(-90);
 		setFill(Color.SILVER);
 		setCamera(camera);
-
 
 		addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
