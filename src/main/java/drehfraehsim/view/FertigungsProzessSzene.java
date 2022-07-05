@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import drehfraehsim.entities.Quader;
 import drehfraehsim.entities.Vector3;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -11,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
 
 public class FertigungsProzessSzene extends Scene implements Renderer {
 	public static final int WIDTH = 1400;
@@ -93,22 +95,20 @@ public class FertigungsProzessSzene extends Scene implements Renderer {
 	}
 
 	@Override
-	public void initialiseWerkzeug(double breite, double länge, double höhe) {
+	public void zeigeWerkzeug(Quader quader, double einstellWinkel) {
 		Platform.runLater(() -> {
-			werkzeug = new Box(breite, höhe, länge);
-			werkzeug.setTranslateX(-100);
-			werkzeug.setTranslateY(-100);
-			werkzeug.translateZProperty().set(0);
-			rootGroup.getChildren().add(werkzeug);
-		});
-	}
+			if (werkzeug != null) {
+				rootGroup.getChildren().remove(werkzeug);
+			}
+			werkzeug = new Box(quader.breite(), quader.höhe(), quader.länge());
 
-	@Override
-	public void bewegeWerkzeug(double z, double y) {
-		Platform.runLater(() -> {
-			werkzeug.setTranslateX(0);
-			werkzeug.setTranslateY(y);
-			werkzeug.setTranslateZ(z);
+			werkzeug.setRotationAxis(Rotate.X_AXIS);
+			werkzeug.setRotate(einstellWinkel);
+			var mittelPunkt = quader.mittelPunkt();
+			werkzeug.setTranslateX(mittelPunkt.x());
+			werkzeug.setTranslateY(mittelPunkt.y());
+			werkzeug.setTranslateZ(mittelPunkt.z());
+			rootGroup.getChildren().add(werkzeug);
 		});
 	}
 

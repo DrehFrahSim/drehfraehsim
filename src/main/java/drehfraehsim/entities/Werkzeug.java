@@ -6,20 +6,17 @@ import drehfraehsim.view.Renderer;
 public class Werkzeug {
 	private final Renderer renderer;
 	private final Quader eckPunkte;
+	private final double einstellWinkel;
 
 	private Vector2 position = new Vector2(0, 0);
 
 	public Werkzeug(WerkzeugParameter parameter, Renderer renderer) {
-		var breite = parameter.breite();
-		var höhe = parameter.höhe();
-		var tiefe = parameter.tiefe();
 		this.renderer = renderer;
+		this.einstellWinkel = parameter.einstellWinkel();
 
 		// TODO um position verschieben
 		this.eckPunkte = berechneEckPunkte(parameter);
 
-
-		renderer.initialiseWerkzeug(breite, tiefe, höhe);
 	}
 
 	public Quader getEckPunkte() {
@@ -31,7 +28,7 @@ public class Werkzeug {
 	}
 
 	public void refreshRender() {
-		renderer.bewegeWerkzeug(position.x(), position.y());
+		renderer.zeigeWerkzeug(getEckPunkte(), einstellWinkel);
 	}
 
 	private static Quader berechneEckPunkte(WerkzeugParameter parameter) {
