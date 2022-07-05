@@ -50,7 +50,12 @@ public class Punktwolke {
 		punkte.add(punkt);
 	}
 
-	public void enferneQuaderVolumen(Quader quader) {
+	/**
+	 *
+	 * @param quader
+	 * @return entferntes Volumen in Kubik-millimeter
+	 */
+	public double enferneQuaderVolumen(Quader quader) {
 		var minZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).min().getAsDouble();
 		var maxZ = quader.allePunkte().mapToDouble(punkt -> punkt.z()).max().getAsDouble();
 
@@ -63,6 +68,7 @@ public class Punktwolke {
 
 		Geometry quaderHülle = geometryFactory.createPolygon(ring).convexHull();
 
+		int entferntePunkteCounter = 0;
 		var punktIterator = punkte.iterator();
 		while(punktIterator.hasNext()) {
 			var punkt = punktIterator.next();
@@ -73,8 +79,11 @@ public class Punktwolke {
 			if (quaderHülle.contains(geometryFactory.createPoint(new Coordinate(punkt.x(), punkt.y(), punkt.z())))) {
 				punktIterator.remove();
 				entferntePunkte.add(punkt);
+				entferntePunkteCounter++;
 			}
 		}
+		// 1 Würfel bzw. Punkt steht für 1/GENAUIGKEIT^3 Volumen
+		return entferntePunkteCounter / (Math.pow(GENAUIGKEIT, 3));
 	}
 
 	public Collection<Vector3> getAndClearEntferntePunkte() {
