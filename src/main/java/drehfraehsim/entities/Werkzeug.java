@@ -8,9 +8,10 @@ public class Werkzeug {
 	private final Quader eckPunkte;
 	private final double einstellWinkel;
 
-	private Vector2 position = new Vector2(0, 0);
-
 	private final double höhenOffset; // Korrektur damit niedrigste Ecke da liegt wo Simulator es möchte
+
+	private Vector2 position = new Vector2(0, 0);
+	private double schwingungYOffset;
 
 	public Werkzeug(WerkzeugParameter parameter, Renderer renderer) {
 		this.renderer = renderer;
@@ -23,11 +24,15 @@ public class Werkzeug {
 	}
 
 	public Quader getEckPunkte() {
-		return eckPunkte.verschiebeUm(new Vector3(0, position.y() + höhenOffset, position.x()));
+		return eckPunkte.verschiebeUm(new Vector3(0, position.y() + höhenOffset + schwingungYOffset, position.x()));
 	}
 
 	public void fahreZu(Vector2 position) {
 		this.position = position;
+	}
+
+	public void setzeSchwingungYOffset(double schwingungYOffset) {
+		this.schwingungYOffset = schwingungYOffset;
 	}
 
 	public void refreshRender() {
